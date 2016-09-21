@@ -16,9 +16,6 @@
 <link href="css/font-awesome.css" rel="stylesheet"> 
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
-<!----webfonts--->
-<link href='http://fonts.useso.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
-<!---//webfonts--->  
 <!-- Nav CSS -->
 <link href="css/custom.css" rel="stylesheet">
 <!-- Metis Menu Plugin JavaScript -->

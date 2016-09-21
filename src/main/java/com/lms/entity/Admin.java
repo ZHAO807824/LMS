@@ -20,6 +20,10 @@ public class Admin extends IdEntity {
 	public Admin() {
 	}
 
+	public Admin(Integer id) {
+		this.id = id;
+	}
+
 	public Admin(String email, String password) {
 		this.email = email;
 		this.password = password;

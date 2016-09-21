@@ -97,6 +97,23 @@ public class DbUtil {
 		}
 		return pstmt;
 	}
+	
+	/**
+	 * 获取PreparedStatement
+	 * @param connection
+	 * @param sql
+	 * @param statement
+	 * @return
+	 */
+	public static PreparedStatement getPstmt(Connection connection, String sql,int statement) {
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(sql,statement);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pstmt;
+	}
 
 	/**
 	 * 关闭PreparedStatement

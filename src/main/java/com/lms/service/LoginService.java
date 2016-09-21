@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.lms.dao.LoginDao;
+import com.lms.dao.AdminDao;
 import com.lms.entity.Admin;
 import com.lms.util.MD5Util;
 
@@ -25,9 +25,9 @@ public class LoginService {
 	 * @return
 	 */
 	public boolean login(Admin admin) {
-		LoginDao loginDao = new LoginDao();
+		AdminDao adminDao = new AdminDao();
 		try {
-			Admin user = loginDao.findOne(admin.getEmail(), MD5Util.getMD5(admin.getPassword()));
+			Admin user = adminDao.findOne(admin.getEmail(), MD5Util.getMD5(admin.getPassword()));
 			if (user != null)
 				return true;
 		} catch (SQLException e) {
