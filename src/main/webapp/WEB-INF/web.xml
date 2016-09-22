@@ -29,6 +29,62 @@
 		<servlet-name>Email</servlet-name>
 		<servlet-class>com.lms.controller.Email</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>Logout</display-name>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>com.lms.controller.Logout</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>Index</display-name>
+		<servlet-name>Index</servlet-name>
+		<servlet-class>com.lms.controller.Index</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>Top</display-name>
+		<servlet-name>Top</servlet-name>
+		<servlet-class>com.lms.controller.Top</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>BookList</display-name>
+		<servlet-name>BookList</servlet-name>
+		<servlet-class>com.lms.controller.book.BookList</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>BookDisabled</display-name>
+		<servlet-name>BookDisabled</servlet-name>
+		<servlet-class>com.lms.controller.book.BookDisabled</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>BookStart</display-name>
+		<servlet-name>BookStart</servlet-name>
+		<servlet-class>com.lms.controller.book.BookStart</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>BookDelete</display-name>
+		<servlet-name>BookDelete</servlet-name>
+		<servlet-class>com.lms.controller.book.BookDelete</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>BookAdd</display-name>
+		<servlet-name>BookAdd</servlet-name>
+		<servlet-class>com.lms.controller.book.BookAdd</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/Login</url-pattern>
@@ -44,6 +100,38 @@
 	<servlet-mapping>
 		<servlet-name>Email</servlet-name>
 		<url-pattern>/Email</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Logout</servlet-name>
+		<url-pattern>/Logout</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Index</servlet-name>
+		<url-pattern>/Index</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Top</servlet-name>
+		<url-pattern>/Top</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BookList</servlet-name>
+		<url-pattern>/BookList</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BookDisabled</servlet-name>
+		<url-pattern>/BookDisabled</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BookStart</servlet-name>
+		<url-pattern>/BookStart</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BookDelete</servlet-name>
+		<url-pattern>/BookDelete</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BookAdd</servlet-name>
+		<url-pattern>/BookAdd</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
