@@ -53,6 +53,7 @@ $(document).ready(function(e) {
 <style>
 	a{
 		cursor: pointer;
+		margin-left:5px;
 	}
 	
 </style>
@@ -118,15 +119,15 @@ $(document).ready(function(e) {
     <table class="tablelist">
     	<thead>
     	<tr>
-        <th>编号</th>
-        <th>书名</th>
-        <th>作者</th>
-        <th>出版社</th>
-        <th>总量</th>
-        <th>借出</th>
-        <th>库存</th>
-        <th>状态</th>
-        <th>操作</th>
+        <th style="width:5%">编号</th>
+        <th style="width:22%">书名</th>
+        <th style="width:22%">作者</th>
+        <th style="width:15%">出版社</th>
+        <th style="width:5%">总量</th>
+        <th style="width:5%">借出</th>
+        <th style="width:5%">库存</th>
+        <th style="width:6%">状态</th>
+        <th style="width:5%">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -136,14 +137,14 @@ $(document).ready(function(e) {
         %>
         <c:forEach var="book" items="<%=lists%>">
         <tr>
-        <td>${book.id}</td>
-        <td>${book.name}</td>
-        <td>${book.auth}</td>
-        <td>${book.press }</td>
-        <td>${book.totalNumber }</td>
-        <td>${book.lendNumber }</td>
-        <td>${book.inventoryNumber }</td>
-        <td>
+        <td style="width:5%">${book.id}</td>
+        <td style="width:22%">${book.name}</td>
+        <td style="width:22%">${book.auth}</td>
+        <td style="width:15%">${book.press }</td>
+        <td style="width:5%">${book.totalNumber }</td>
+        <td style="width:5%">${book.lendNumber }</td>
+        <td style="width:5%">${book.inventoryNumber }</td>
+        <td style="width:6%">
         	<c:if test="${book.status==1}">
         		正常
         	</c:if>
@@ -151,8 +152,14 @@ $(document).ready(function(e) {
         		禁用
         	</c:if>
         </td>
-        <td>
-        	<a href="#" class="tablelink">查看</a>
+        <td style="width:15%">
+        	<c:if test="${book.lendNumber==0 }">
+        		<a href="${ctx}/BookUpdate?id=${book.id}" class="tablelink">修改</a>
+        	</c:if>
+        	<c:if test="${book.lendNumber!=0 }">
+        		<a href="${ctx}/BookUpdate?id=${book.id}" class="tablelink">查看</a>
+        	</c:if>
+        	
         	<c:if test="${book.status==1}">
         		<a onclick="disabled('${book.id}')" class="tablelink" style="color:red">禁用</a>
         	</c:if>

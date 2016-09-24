@@ -38,7 +38,7 @@ public class AdminDao {
 		Admin admin = null;
 		if (resultSet != null && resultSet.first()) {
 			admin = new Admin(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4),
-					resultSet.getInt(5), resultSet.getInt(6));
+					resultSet.getInt(5));
 		}
 		DbUtil.closeConnStatRs(connection, statement, resultSet);
 		return admin;

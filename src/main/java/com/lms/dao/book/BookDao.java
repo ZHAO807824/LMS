@@ -11,7 +11,6 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
-
 public class BookDao {
 	private Connection connection;
 	private Statement statement;
@@ -101,4 +100,53 @@ public class BookDao {
 		DbUtil.closeConn(connection);
 		return insert;
 	}
+
+	/**
+	 * 通过ID获取Book
+	 * 
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public Book findOne(Integer id) throws SQLException {
+		connection = (Connection) DbUtil.getConn();
+		String sql = "select * from book where id=?";
+		preparedStatement = (PreparedStatement) DbUtil.getPstmt(connection, sql);
+		preparedStatement.setInt(1, id);
+		resultSet = preparedStatement.executeQuery();
+		Book book = null;
+		if (resultSet.next()) {
+			book = new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+					resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7), resultSet.getInt(8),
+					resultSet.getString(9));
+		}
+		DbUtil.closeConnPstatRs(connection, preparedStatement, resultSet);
+		return book;
+	}
+
+	/**
+	 * 修改
+	 * 
+	 * @param book
+	 * @return
+	 * @throws SQLException
+	 */
+	public Integer update(Book book) throws SQLException {
+		connection = (Connection) DbUtil.getConn();
+		String sql = "update book set name=?,auth=?,press=?,total_number=?,lend_number=?,inventory_number=?,remark=? where id=?";
+		preparedStatement = (PreparedStatement) DbUtil.getPstmt(connection, sql);
+		preparedStatement.setString(1, book.getName());
+		preparedStatement.setString(2, book.getAuth());
+		preparedStatement.setString(3, book.getPress());
+		preparedStatement.setInt(4, book.getTotalNumber());
+		preparedStatement.setInt(5, book.getLendNumber());
+		preparedStatement.setInt(6, book.getInventoryNumber());
+		preparedStatement.setString(7, book.getRemark());
+		preparedStatement.setInt(8, book.getId());
+		Integer update = preparedStatement.executeUpdate();
+		DbUtil.closePstmt(preparedStatement);
+		DbUtil.closeConn(connection);
+		return update;
+	}
+
 }

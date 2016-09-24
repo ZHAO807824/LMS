@@ -94,13 +94,52 @@ public class BookService {
 		return false;
 	}
 	
-
+	
+	/**
+	 * 保存图书信息
+	 * @param book
+	 * @return
+	 */
 	public boolean save(Book book) {
 		BookDao dao = new BookDao();
 		try {
 			return dao.insert(book) != 0 ? true : false;
 		} catch (SQLException e) {
 			LOGGER.info("BookService save(Book);" + e.getMessage());
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * 查询单个图书信息
+	 * @param idStr
+	 * @return
+	 */
+	public Book query(String idStr){
+		Integer id = Integer.valueOf(idStr);
+		BookDao dao = new BookDao();
+		try {
+			return dao.findOne(id);
+		} catch (SQLException e) {
+			LOGGER.info("BookService Query(String);" + e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 修改图书信息
+	 * @param book
+	 * @return
+	 */
+	public boolean update(Book book){
+		BookDao dao = new BookDao();
+		try {
+			return dao.update(book) != 0 ? true : false;
+		} catch (SQLException e) {
+			LOGGER.info("BookService update(Book);" + e.getMessage());
 			e.printStackTrace();
 		}
 		return false;

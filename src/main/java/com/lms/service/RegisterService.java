@@ -66,7 +66,7 @@ public class RegisterService {
 		UserDao userDao=new UserDao();
 		try {
 			Integer adminId=adminDao.insert(new Admin(admin.getEmail(), MD5Util.getMD5(admin.getPassword())));
-			Integer userId=userDao.insert(user);
+			Integer userId=userDao.insert(user,false);
 			if (adminId!=null&&userId!=null) {
 				return userDao.insert(userId, adminId)!=null?true:false;
 			}

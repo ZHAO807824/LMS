@@ -14,7 +14,6 @@ public class Admin extends IdEntity {
 	private String email;
 	private String password;
 	private Integer role;
-	private Integer status;
 	private Integer online;
 
 	public Admin() {
@@ -29,12 +28,11 @@ public class Admin extends IdEntity {
 		this.password = password;
 	}
 
-	public Admin(Integer id, String email, String password, Integer role, Integer status, Integer online) {
+	public Admin(Integer id, String email, String password, Integer role, Integer online) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.role = role;
-		this.status = status;
 		this.online = online;
 	}
 
@@ -60,14 +58,6 @@ public class Admin extends IdEntity {
 
 	public void setRole(Integer role) {
 		this.role = role;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 
 	public Integer getOnline() {

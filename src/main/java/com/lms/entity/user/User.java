@@ -12,17 +12,11 @@ public class User extends IdEntity {
 	private String idcard;
 	private String address;
 	private Integer gender;
+	private Integer lendNumber;
+	private Integer role;
+	private Integer status;
 
 	public User() {
-	}
-
-	public User(String name, String email, String tell, String idcard, String address, Integer gender) {
-		this.name = name;
-		this.email = email;
-		this.tell = tell;
-		this.idcard = idcard;
-		this.address = address;
-		this.gender = gender;
 	}
 
 	public User(Integer id, String name, String email, String tell, String idcard, String address, Integer gender) {
@@ -33,6 +27,43 @@ public class User extends IdEntity {
 		this.idcard = idcard;
 		this.address = address;
 		this.gender = gender;
+	}
+
+	
+	public User(String name, String email, String tell, String idcard, String address, Integer gender) {
+		this.name = name;
+		this.email = email;
+		this.tell = tell;
+		this.idcard = idcard;
+		this.address = address;
+		this.gender = gender;
+	}
+
+	public User(String name, String email, String tell, String idcard, String address, Integer gender,
+			Integer lendNumber, Integer role, Integer status) {
+		this.name = name;
+		this.email = email;
+		this.tell = tell;
+		this.idcard = idcard;
+		this.address = address;
+		this.gender = gender;
+		this.lendNumber = lendNumber;
+		this.role = role;
+		this.status = status;
+	}
+
+	public User(Integer id, String name, String email, String tell, String idcard, String address, Integer gender,
+			Integer lendNumber, Integer role, Integer status) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.tell = tell;
+		this.idcard = idcard;
+		this.address = address;
+		this.gender = gender;
+		this.lendNumber = lendNumber;
+		this.role = role;
+		this.status = status;
 	}
 
 	public String getName() {
@@ -81,6 +112,30 @@ public class User extends IdEntity {
 
 	public void setGender(Integer gender) {
 		this.gender = gender;
+	}
+
+	public Integer getLendNumber() {
+		return lendNumber;
+	}
+
+	public void setLendNumber(Integer lendNumber) {
+		this.lendNumber = lendNumber;
+	}
+
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 }

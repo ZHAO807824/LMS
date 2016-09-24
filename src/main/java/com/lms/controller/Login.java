@@ -44,8 +44,11 @@ public class Login extends HttpServlet {
 		String pass = request.getParameter("password");
 
 		LoginService service = new LoginService();
-		if (service.login(new Admin(username, pass))) {
+		Admin admin = service.login(new Admin(username, pass));
+
+		if (admin != null) {
 			session.setAttribute("user", username);
+
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		} else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);

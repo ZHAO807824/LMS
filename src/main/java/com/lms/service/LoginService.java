@@ -24,15 +24,13 @@ public class LoginService {
 	 * @param admin
 	 * @return
 	 */
-	public boolean login(Admin admin) {
+	public Admin login(Admin admin) {
 		AdminDao adminDao = new AdminDao();
 		try {
-			Admin user = adminDao.findOne(admin.getEmail(), MD5Util.getMD5(admin.getPassword()));
-			if (user != null)
-				return true;
+			return adminDao.findOne(admin.getEmail(), MD5Util.getMD5(admin.getPassword()));
 		} catch (SQLException e) {
-			LOGGER.info("LoginService login(Admin);"+e.getMessage());
+			LOGGER.info("LoginService login(Admin);" + e.getMessage());
 		}
-		return false;
+		return null;
 	}
 }
