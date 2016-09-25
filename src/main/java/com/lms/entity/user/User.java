@@ -1,5 +1,7 @@
 package com.lms.entity.user;
 
+import java.util.Date;
+
 import com.lms.entity.IdEntity;
 
 public class User extends IdEntity {
@@ -15,6 +17,8 @@ public class User extends IdEntity {
 	private Integer lendNumber;
 	private Integer role;
 	private Integer status;
+	private Date lendTime;
+	private Date returnTime;
 
 	public User() {
 	}
@@ -29,7 +33,6 @@ public class User extends IdEntity {
 		this.gender = gender;
 	}
 
-	
 	public User(String name, String email, String tell, String idcard, String address, Integer gender) {
 		this.name = name;
 		this.email = email;
@@ -64,6 +67,22 @@ public class User extends IdEntity {
 		this.lendNumber = lendNumber;
 		this.role = role;
 		this.status = status;
+	}
+
+	public User(Integer id, String name, String email, String tell, String idcard, String address, Integer gender,
+			Integer lendNumber, Integer role, Integer status, Date lendTime, Date returnTime) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.tell = tell;
+		this.idcard = idcard;
+		this.address = address;
+		this.gender = gender;
+		this.lendNumber = lendNumber;
+		this.role = role;
+		this.status = status;
+		this.lendTime = lendTime;
+		this.returnTime = returnTime;
 	}
 
 	public String getName() {
@@ -136,6 +155,29 @@ public class User extends IdEntity {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Date getLendTime() {
+		return lendTime;
+	}
+
+	public void setLendTime(Date lendTime) {
+		this.lendTime = lendTime;
+	}
+
+	public Date getReturnTime() {
+		return returnTime;
+	}
+
+	public void setReturnTime(Date returnTime) {
+		this.returnTime = returnTime;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + "name=" + name + ", email=" + email + ", tell=" + tell + ", idcard=" + idcard
+				+ ", address=" + address + ", gender=" + gender + ", lendNumber=" + lendNumber + ", role=" + role
+				+ ", status=" + status + ", lendTime=" + lendTime + ", returnTime=" + returnTime + "]";
 	}
 
 }

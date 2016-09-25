@@ -2,7 +2,9 @@ package com.lms.dao.book;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.lms.entity.book.Book;
@@ -40,6 +42,60 @@ public class BookDao {
 		}
 		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
 		return books;
+	}
+	
+
+	/**
+	 * 根据借阅者ID遍历用户列表
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Book> findAll(Integer id) throws SQLException {
+		List<Book> books = Lists.newArrayList();
+
+		connection = (Connection) DbUtil.getConn();
+		statement = (Statement) DbUtil.getStmt(connection);
+		String sql = "select b.*,bu.lend_time as lend_time,bu.return_time as return_time from book_user as bu LEFT JOIN book as b on bu.book_id=b.id LEFT JOIN  `user` as u on bu.user_id=u.id where u.id="+id;
+		resultSet = statement.executeQuery(sql);
+
+		Book book;
+		while (resultSet.next()) {
+			book = new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+					resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7), resultSet.getInt(8),
+					resultSet.getString(9),resultSet.getDate(10),resultSet.getDate(11));
+			books.add(book);
+		}
+		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
+		return books;
+	}
+	
+	/**
+	 * 遍历图书ID列表
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String, Object>> findAllId() throws SQLException {
+		List<Map<String, Object>> lists = Lists.newArrayList();
+
+		connection = (Connection) DbUtil.getConn();
+		statement = (Statement) DbUtil.getStmt(connection);
+		String sql = "select id,name from book where status=1";
+		resultSet = statement.executeQuery(sql);
+
+		Integer id;
+		String name;
+		while (resultSet.next()) {
+			Map<String, Object> map=new HashMap<String, Object>();
+			id=resultSet.getInt(1);
+			name=resultSet.getString(2);
+			map.put("id", id);
+			map.put("name", name);
+			lists.add(map);
+		}
+		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
+		return lists;
 	}
 
 	/**

@@ -36,7 +36,14 @@ public class BookService {
 			LOGGER.info("BookService list();" + e.getMessage());
 			e.printStackTrace();
 		}
-
+		return null;
+	}
+	
+	/**
+	 * 启用状态图书的id集合
+	 * @return
+	 */
+	public List<Integer> idList(){
 		return null;
 	}
 

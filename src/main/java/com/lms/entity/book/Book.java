@@ -1,5 +1,7 @@
 package com.lms.entity.book;
 
+import java.util.Date;
+
 import com.lms.entity.IdEntity;
 
 public class Book extends IdEntity {
@@ -14,11 +16,12 @@ public class Book extends IdEntity {
 	private Integer inventoryNumber;
 	private Integer status;
 	private String remark;
+	private Date lendTime;
+	private Date returnTime;
 
 	public Book() {
 	}
 
-	
 	public Book(String name, String auth, String press, Integer totalNumber, Integer lendNumber,
 			Integer inventoryNumber, Integer status, String remark) {
 		this.name = name;
@@ -31,10 +34,9 @@ public class Book extends IdEntity {
 		this.remark = remark;
 	}
 
-
-	public Book(Integer id,String name, String auth, String press, Integer totalNumber, Integer lendNumber,
+	public Book(Integer id, String name, String auth, String press, Integer totalNumber, Integer lendNumber,
 			Integer inventoryNumber, Integer status, String remark) {
-		this.id=id;
+		this.id = id;
 		this.name = name;
 		this.auth = auth;
 		this.press = press;
@@ -44,7 +46,20 @@ public class Book extends IdEntity {
 		this.status = status;
 		this.remark = remark;
 	}
-
+	public Book(Integer id, String name, String auth, String press, Integer totalNumber, Integer lendNumber,
+			Integer inventoryNumber, Integer status, String remark,Date lendTime,Date returnTime) {
+		this.id = id;
+		this.name = name;
+		this.auth = auth;
+		this.press = press;
+		this.totalNumber = totalNumber;
+		this.lendNumber = lendNumber;
+		this.inventoryNumber = inventoryNumber;
+		this.status = status;
+		this.remark = remark;
+		this.lendTime=lendTime;
+		this.returnTime=returnTime;
+	}
 
 	public String getName() {
 		return name;
@@ -108,6 +123,29 @@ public class Book extends IdEntity {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public Date getLendTime() {
+		return lendTime;
+	}
+
+	public void setLendTime(Date lendTime) {
+		this.lendTime = lendTime;
+	}
+
+	public Date getReturnTime() {
+		return returnTime;
+	}
+
+	public void setReturnTime(Date returnTime) {
+		this.returnTime = returnTime;
+	}
+
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ",name=" + name + ", auth=" + auth + ", press=" + press + ", totalNumber="
+				+ totalNumber + ", lendNumber=" + lendNumber + ", inventoryNumber=" + inventoryNumber + ", status="
+				+ status + ", remark=" + remark + ", lendTime=" + lendTime + ", returnTime=" + returnTime + "]";
 	}
 
 }

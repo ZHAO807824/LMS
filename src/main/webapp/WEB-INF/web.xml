@@ -148,6 +148,20 @@
 		<servlet-name>UserUpdate</servlet-name>
 		<servlet-class>com.lms.controller.user.UserUpdate</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>BookUserList</display-name>
+		<servlet-name>BookUserList</servlet-name>
+		<servlet-class>com.lms.controller.borrow.BookUserList</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>UserBookList</display-name>
+		<servlet-name>UserBookList</servlet-name>
+		<servlet-class>com.lms.controller.borrow.UserBookList</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/Login</url-pattern>
@@ -231,6 +245,14 @@
 	<servlet-mapping>
 		<servlet-name>UserUpdate</servlet-name>
 		<url-pattern>/UserUpdate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BookUserList</servlet-name>
+		<url-pattern>/BookUserList</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UserBookList</servlet-name>
+		<url-pattern>/UserBookList</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

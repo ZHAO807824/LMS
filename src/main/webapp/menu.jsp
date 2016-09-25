@@ -61,13 +61,11 @@ $(function(){
 	</dd>
 	<dd>
 	<div class="title">
-		<span><img src="images/leftico04.png"/></span>日期管理
+		<span><img src="images/leftico04.png"/></span>借书管理
 	</div>
 	<ul class="menuson">
-		<li><cite></cite><a href="#">自定义</a><i></i></li>
-		<li><cite></cite><a href="#">常用资料</a><i></i></li>
-		<li><cite></cite><a href="#">信息列表</a><i></i></li>
-		<li><cite></cite><a href="#">其他</a><i></i></li>
+		<li><cite></cite><a href="${ctx}/BookUserList">图书列表</a><i></i></li>
+		<li><cite></cite><a href="${ctx}/UserBookList">用户列表</a><i></i></li>
 	</ul>
 	</dd>
 </dl>

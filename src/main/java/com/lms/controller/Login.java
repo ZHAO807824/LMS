@@ -47,7 +47,7 @@ public class Login extends HttpServlet {
 		Admin admin = service.login(new Admin(username, pass));
 
 		if (admin != null) {
-			session.setAttribute("user", username);
+			session.setAttribute("username", username);
 
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		} else {

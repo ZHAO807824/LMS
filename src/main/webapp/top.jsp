@@ -31,7 +31,7 @@ $(function(){
 		<li><a href="${ctx}/Logout" target="_parent">退出</a></li>
 	</ul>
 	<div class="user">
-		<span>${sessionScope.user}</span>
+		<span>${sessionScope.username}</span>
 		<i>消息</i>
 		<b>5</b>
 	</div>

@@ -2,7 +2,9 @@ package com.lms.dao.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.lms.entity.user.User;
@@ -141,6 +143,60 @@ public class UserDao {
 		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
 		return users;
 	}
+	
+	/**
+	 * 遍历用户ID列表
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String, Object>> findAllId() throws SQLException {
+		List<Map<String, Object>> lists = Lists.newArrayList();
+
+		connection = (Connection) DbUtil.getConn();
+		statement = (Statement) DbUtil.getStmt(connection);
+		String sql = "select id,name from user where status=1";
+		resultSet = statement.executeQuery(sql);
+
+		Integer id;
+		String name;
+		while (resultSet.next()) {
+			Map<String, Object> map=new HashMap<String, Object>();
+			id=resultSet.getInt(1);
+			name=resultSet.getString(2);
+			map.put("id", id);
+			map.put("name", name);
+			lists.add(map);
+		}
+		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
+		return lists;
+	}
+	
+	/**
+	 * 根据所借图书ID遍历用户列表
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<User> findAll(Integer id) throws SQLException {
+		List<User> users = Lists.newArrayList();
+
+		connection = (Connection) DbUtil.getConn();
+		statement = (Statement) DbUtil.getStmt(connection);
+		String sql = "select u.*,bu.lend_time as lend_time,bu.return_time as return_time from book_user as bu LEFT JOIN book as b on bu.book_id=b.id LEFT JOIN  `user` as u on bu.user_id=u.id where b.id="+id;
+		resultSet = statement.executeQuery(sql);
+
+		User user;
+		while (resultSet.next()) {
+			user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
+					resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7), resultSet.getInt(8),
+					resultSet.getInt(9), resultSet.getInt(10),resultSet.getDate(11),resultSet.getDate(12));
+			users.add(user);
+		}
+		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
+		return users;
+	}
+	
 
 	/**
 	 * 删除用户
