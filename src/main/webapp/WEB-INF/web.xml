@@ -162,6 +162,20 @@
 		<servlet-name>UserBookList</servlet-name>
 		<servlet-class>com.lms.controller.borrow.UserBookList</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>SingleBookUserList</display-name>
+		<servlet-name>SingleBookUserList</servlet-name>
+		<servlet-class>com.lms.controller.borrow.SingleBookUserList</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>SingleUserBookList</display-name>
+		<servlet-name>SingleUserBookList</servlet-name>
+		<servlet-class>com.lms.controller.borrow.SingleUserBookList</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/Login</url-pattern>
@@ -253,6 +267,14 @@
 	<servlet-mapping>
 		<servlet-name>UserBookList</servlet-name>
 		<url-pattern>/UserBookList</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SingleBookUserList</servlet-name>
+		<url-pattern>/SingleBookUserList</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SingleUserBookList</servlet-name>
+		<url-pattern>/SingleUserBookList</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

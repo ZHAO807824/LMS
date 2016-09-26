@@ -1,5 +1,6 @@
-<%@page import="com.lms.entity.user.User"%>
+<%@page import="com.lms.bean.Borrow"%>
 <%@page import="com.alibaba.fastjson.JSON"%>
+<%@page import="com.lms.entity.book.Book"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -37,27 +38,17 @@ $(document).ready(function(e) {
 </script>
 
 <script type="text/javascript">
-
-	/* 升级用户 */
-	function upgrade(id){
-		$.post('${ctx}/UserUpgrade', { "id":id }, function (data) { window.location.reload(true) });
-	}
-	/* 降级用户 */
-	function demotion(id){
-		$.post('${ctx}/UserDemotion', { "id":id }, function (data) { window.location.reload(true) });
-	}
-
-	/* 禁用用户  */
+	/* 禁用图书外借  */
 	function disabled(id){
-		$.post('${ctx}/UserDisabled', { "id":id }, function (data) { window.location.reload(true) });
+		$.post('${ctx}/BookDisabled', { "id":id }, function (data) { window.location.reload(true) });
 	}
-	/* 激活用户 */
+	/* 启用图书外借 */
 	function start(id){
-		$.post('${ctx}/UserStart', { "id":id }, function (data) { window.location.reload(true) });
+		$.post('${ctx}/BookStart', { "id":id }, function (data) { window.location.reload(true) });
 	}
-	/* 删除用户*/
+	/* 删除图书 */
 	function del(id){
-		$.post('${ctx}/UserDelete', { "id":id }, function (data) { window.location.reload(true) });
+		$.post('${ctx}/BookDelete', { "id":id }, function (data) { window.location.reload(true) });
 	}
 </script>
 <style>
@@ -74,12 +65,21 @@ $(document).ready(function(e) {
 	<div class="place">
     <span>位置：</span>
     <ul class="placeul">
-    <li><a href="#">用户管理</a></li>
-    <li><a href="#">用户列表</a></li>
+    <li><a href="#">图书管理</a></li>
+    <li><a href="#">图书列表</a></li>
     </ul>
     </div>
     
     <div class="formbody">
+    
+    
+
+    
+
+    
+  	
+    
+
     
     
     <ul class="seachform">
@@ -121,90 +121,76 @@ $(document).ready(function(e) {
     	<thead>
     	<tr>
         <th style="width:5%">编号</th>
-        <th style="width:6%">用户</th>
-        <th style="width:12%">邮箱</th>
-        <th style="width:10%">联系方式</th>
-        <th style="width:13%">身份证</th>
-        <th style="width:15%">地址</th>
-        <th style="width:5%">性别</th>
-        <th style="width:8%">已借图书</th>
-        <th style="width:7%">权限</th>
-        <th style="width:5%">状态</th>
-        <th style="width:14%">操作</th>
+        <th style="width:22%">书名</th>
+        <th style="width:22%">作者</th>
+        <th style="width:15%">出版社</th>
+        <th style="width:5%">总量</th>
+        <th style="width:5%">借出</th>
+        <th style="width:5%">库存</th>
+        <th style="width:6%">状态</th>
+        <th style="width:5%">操作</th>
         </tr>
         </thead>
         <tbody>
         <%
-        	String data=(String)request.getAttribute("users");
-        	List<User> lists=JSON.parseArray(data, User.class);
+        	List<Borrow<List<Book>>> lists=(List<Borrow<List<Book>>>)request.getAttribute("lists");
+        	if(lists!=null&&lists.size()>0)
+        		for(Borrow borrow:lists){
+        			String key=borrow.getKey();
+        			List<Book> value=(List<Book>)borrow.getValue();
         %>
-        <c:forEach var="user" items="<%=lists%>">
         <tr>
-        <td style="width:5%">${user.id}</td>
-        <td style="width:6%">${user.name}</td>
-        <td style="width:12%">${user.email}</td>
-        <td style="width:10%">${user.tell}</td>
-        <td style="width:13%">${user.idcard}</td>
-        <td style="width:15%">${user.address}</td>
-        <td style="width:5%">
-        	<c:if test="${user.gender==1}">
-        		男
+        	<td colspan="11" style="font-size:15px;background:#FCFCFC"><%=key%></td>
+        </tr>
+        <c:forEach var="book" items="<%=value%>">
+        <tr>
+        <td style="width:5%">${book.id}</td>
+        <td style="width:22%">${book.name}</td>
+        <td style="width:22%">${book.auth}</td>
+        <td style="width:15%">${book.press }</td>
+        <td style="width:5%">${book.totalNumber }</td>
+        <td style="width:5%">${book.lendNumber }</td>
+        <td style="width:5%">${book.inventoryNumber }</td>
+        <td style="width:6%">
+        	<c:if test="${book.status==1}">
+        		正常
         	</c:if>
-        	<c:if test="${user.gender==0}">
-        		女
-        	</c:if>
-        </td>
-        <td style="width:8%">
-        	<a href="" class="tablelink" style="color:green">${user.lendNumber }</a>
-        	
-        </td>
-        <td style="width:7%">
-        	<c:if test="${user.role==1}">
-        		VIP用户
-        	</c:if>
-        	<c:if test="${user.role==0}">
-        		普通用户
-        	</c:if>
-        </td>
-        <td style="width:5%">
-        	<c:if test="${user.status==1}">
-        		启用
-        	</c:if>
-        	<c:if test="${user.status==0}">
+        	<c:if test="${book.status==0}">
         		禁用
         	</c:if>
         </td>
-        <td style="width:14%">
-        	<c:if test="${user.status==1 }">
-        		<a href="${ctx}/UserUpdate?id=${user.id}" class="tablelink">查看</a>
+        <td style="width:15%">
+        	<c:if test="${book.lendNumber==0 }">
+        		<a href="${ctx}/BookUpdate?id=${book.id}" class="tablelink">修改</a>
         	</c:if>
-        	<c:if test="${user.status==0 }">
-        		<a href="${ctx}/UserUpdate?id=${user.id}" class="tablelink" style="color:green">修改</a>
-        	</c:if>
-        
-        	<c:if test="${user.role==1 }">
-        		<a onclick="demotion('${user.id}')" class="tablelink" style="color:red">降级</a>
-        	</c:if>
-        	<c:if test="${user.role==0 }">
-        		<a onclick="upgrade('${user.id}')"  class="tablelink" style="color:green">升级</a>
-        	</c:if>
-        
-        	<c:if test="${user.status==1}">
-        		<a onclick="disabled('${user.id}')" class="tablelink" style="color:red">禁用</a>
-        	</c:if>
-        	<c:if test="${user.status==0}">
-        		<a onclick="start('${user.id}')"  class="tablelink" style="color:green">启用</a>
+        	<c:if test="${book.lendNumber!=0 }">
+        		<a href="${ctx}/BookUpdate?id=${book.id}" class="tablelink">查看</a>
         	</c:if>
         	
-        	<a onclick="del('${user.id}')" class="tablelink" style="color:red"> 删除</a></td>
+        	<c:if test="${book.status==1}">
+        		<a onclick="disabled('${book.id}')" class="tablelink" style="color:red">禁用</a>
+        	</c:if>
+        	<c:if test="${book.status==0}">
+        		<a onclick="start('${book.id}')"  class="tablelink" style="color:green">启用</a>
+        	</c:if>
+        	<a onclick="del('${book.id}')" class="tablelink" style="color:red"> 删除</a></td>
         </tr> 
         </c:forEach>
-       
+       <%
+        		}
+       %>
     
         </tbody>
     </table>
     
+   
+  
+    
+
+       
 	</div> 
+ 
+
     
     <script type="text/javascript">
 	$('.tablelist tbody tr:odd').addClass('odd');

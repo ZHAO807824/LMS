@@ -13,18 +13,21 @@ import com.lms.entity.book.Book;
 import com.lms.service.borrow.BorrowService;
 
 /**
- * Servlet implementation class UserBookList
+ * Servlet implementation class SingleUserBookList
  */
-public class UserBookList extends HttpServlet {
+public class SingleUserBookList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
 
-    public UserBookList() {
+    public SingleUserBookList() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String idStr=request.getParameter("id");
 		BorrowService service = new BorrowService();
-		List<Borrow<List<Book>>> lists = service.userBookList();
+		List<Borrow<List<Book>>> lists = service.userBookList(idStr);
 		if (lists != null && lists.size() > 0) {
 			request.setAttribute("lists", lists);
 		}

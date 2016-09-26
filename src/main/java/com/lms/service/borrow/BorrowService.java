@@ -46,6 +46,29 @@ public class BorrowService {
 	}
 
 	/**
+	 * 指定图书用户列表
+	 * 
+	 * @return
+	 */
+	public List<Borrow<List<User>>> bookUserList(String idStr) {
+		List<Borrow<List<User>>> list = Lists.newArrayList();
+		BookDao bookDao = new BookDao();
+		UserDao userDao = new UserDao();
+		Integer id = Integer.valueOf(idStr);
+		try {
+			Map<String, Object> map = bookDao.findAllId(id);
+			List<User> value = userDao.findAll((Integer) map.get("id"));
+			if (value != null && value.size() > 0) {
+				list.add(new Borrow<List<User>>(String.valueOf(map.get("name")), value));
+			}
+		} catch (SQLException e) {
+			LOGGER.info("BorrowService bookUserList()," + e.getMessage());
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	/**
 	 * 用户图书列表
 	 * 
 	 * @return
@@ -63,6 +86,29 @@ public class BorrowService {
 						list.add(new Borrow<List<Book>>(String.valueOf(map.get("name")), value));
 					}
 				}
+			}
+		} catch (SQLException e) {
+			LOGGER.info("BorrowService userBookList()," + e.getMessage());
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	/**
+	 * 指定用户图书列表
+	 * 
+	 * @return
+	 */
+	public List<Borrow<List<Book>>> userBookList(String idStr) {
+		List<Borrow<List<Book>>> list = Lists.newArrayList();
+		BookDao bookDao = new BookDao();
+		UserDao userDao = new UserDao();
+		Integer id = Integer.valueOf(idStr);
+		try {
+			Map<String, Object> map = userDao.findAllId(id);
+			List<Book> value = bookDao.findAll((Integer) map.get("id"));
+			if (value != null && value.size() > 0) {
+				list.add(new Borrow<List<Book>>(String.valueOf(map.get("name")), value));
 			}
 		} catch (SQLException e) {
 			LOGGER.info("BorrowService userBookList()," + e.getMessage());

@@ -143,7 +143,7 @@ public class UserDao {
 		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
 		return users;
 	}
-	
+
 	/**
 	 * 遍历用户ID列表
 	 * 
@@ -161,9 +161,9 @@ public class UserDao {
 		Integer id;
 		String name;
 		while (resultSet.next()) {
-			Map<String, Object> map=new HashMap<String, Object>();
-			id=resultSet.getInt(1);
-			name=resultSet.getString(2);
+			Map<String, Object> map = new HashMap<String, Object>();
+			id = resultSet.getInt(1);
+			name = resultSet.getString(2);
 			map.put("id", id);
 			map.put("name", name);
 			lists.add(map);
@@ -171,7 +171,34 @@ public class UserDao {
 		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
 		return lists;
 	}
-	
+
+	/**
+	 * 根据用户ID获取部分用户信息
+	 * 
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public Map<String, Object> findAllId(Integer userId) throws SQLException {
+		connection = (Connection) DbUtil.getConn();
+		statement = (Statement) DbUtil.getStmt(connection);
+		String sql = "select id,name from user where status=1 and id=" + userId;
+		resultSet = statement.executeQuery(sql);
+
+		Integer id;
+		String name;
+		Map<String, Object> map = new HashMap<String, Object>();
+		while (resultSet.next()) {
+
+			id = resultSet.getInt(1);
+			name = resultSet.getString(2);
+			map.put("id", id);
+			map.put("name", name);
+		}
+		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
+		return map;
+	}
+
 	/**
 	 * 根据所借图书ID遍历用户列表
 	 * 
@@ -183,20 +210,20 @@ public class UserDao {
 
 		connection = (Connection) DbUtil.getConn();
 		statement = (Statement) DbUtil.getStmt(connection);
-		String sql = "select u.*,bu.lend_time as lend_time,bu.return_time as return_time from book_user as bu LEFT JOIN book as b on bu.book_id=b.id LEFT JOIN  `user` as u on bu.user_id=u.id where b.id="+id;
+		String sql = "select u.*,bu.lend_time as lend_time,bu.return_time as return_time from book_user as bu LEFT JOIN book as b on bu.book_id=b.id LEFT JOIN  `user` as u on bu.user_id=u.id where b.id="
+				+ id;
 		resultSet = statement.executeQuery(sql);
 
 		User user;
 		while (resultSet.next()) {
 			user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
 					resultSet.getString(5), resultSet.getString(6), resultSet.getInt(7), resultSet.getInt(8),
-					resultSet.getInt(9), resultSet.getInt(10),resultSet.getDate(11),resultSet.getDate(12));
+					resultSet.getInt(9), resultSet.getInt(10), resultSet.getDate(11), resultSet.getDate(12));
 			users.add(user);
 		}
 		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
 		return users;
 	}
-	
 
 	/**
 	 * 删除用户

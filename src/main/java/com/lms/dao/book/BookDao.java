@@ -70,6 +70,7 @@ public class BookDao {
 		return books;
 	}
 	
+	
 	/**
 	 * 遍历图书ID列表
 	 * 
@@ -96,6 +97,31 @@ public class BookDao {
 		}
 		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
 		return lists;
+	}
+	
+	/**
+	 * 根据图书id获取图书部分信息
+	 * @param bookId
+	 * @return
+	 * @throws SQLException
+	 */
+	public Map<String, Object> findAllId(Integer bookId) throws SQLException {
+		connection = (Connection) DbUtil.getConn();
+		statement = (Statement) DbUtil.getStmt(connection);
+		String sql = "select id,name from book where status=1 and id="+bookId;
+		resultSet = statement.executeQuery(sql);
+
+		Integer id;
+		String name;
+		Map<String, Object> map=new HashMap<String, Object>();
+		while (resultSet.next()) {
+			id=resultSet.getInt(1);
+			name=resultSet.getString(2);
+			map.put("id", id);
+			map.put("name", name);
+		}
+		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
+		return map;
 	}
 
 	/**

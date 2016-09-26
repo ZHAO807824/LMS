@@ -142,7 +142,9 @@ $(document).ready(function(e) {
         <td style="width:22%">${book.auth}</td>
         <td style="width:15%">${book.press }</td>
         <td style="width:5%">${book.totalNumber }</td>
-        <td style="width:5%">${book.lendNumber }</td>
+        <td style="width:5%">
+        	<a href="${ctx}/SingleBookUserList?id=${book.id}" style="color:green">${book.lendNumber }</a>
+        </td>
         <td style="width:5%">${book.inventoryNumber }</td>
         <td style="width:6%">
         	<c:if test="${book.status==1}">

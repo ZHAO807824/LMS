@@ -155,7 +155,7 @@ $(document).ready(function(e) {
         	</c:if>
         </td>
         <td style="width:8%">
-        	<a href="" class="tablelink" style="color:green">${user.lendNumber }</a>
+        	<a href="${ctx}/SingleUserBookList?id=${user.id}" class="tablelink" style="color:green">${user.lendNumber }</a>
         	
         </td>
         <td style="width:7%">
