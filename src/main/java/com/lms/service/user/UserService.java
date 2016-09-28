@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.lms.dao.AdminDao;
+import com.lms.dao.book.BookDao;
 import com.lms.dao.user.UserDao;
 import com.lms.entity.Admin;
 import com.lms.entity.user.User;
@@ -180,5 +181,25 @@ public class UserService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	/**
+	 * 借阅图书
+	 * @param bookId
+	 * @param adminId
+	 * @return
+	 */
+	public boolean borrow(Integer bookId,Integer adminId){
+		UserDao userDao=new UserDao();
+		BookDao bookDao=new BookDao();
+		try {
+			if(bookDao.lend(bookId)>0){
+				return userDao.borrow(userDao.findUserId(adminId), bookId)>0?true:false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 }

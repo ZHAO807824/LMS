@@ -1,3 +1,4 @@
+<%@page import="com.lms.entity.Admin"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -47,9 +48,19 @@ $(function(){
 	</div>
 	<ul class="menuson">
 		<li><cite></cite><a href="${ctx}/BookList" target="rightFrame">图书列表</a><i></i></li>
+		<%
+			Admin admin=(Admin)session.getAttribute("admin");
+			if(admin.getRole()==1){
+	%>
 		<li><cite></cite><a href="${ctx}/BookAdd" target="rightFrame">添加图书</a><i></i></li>
+		<%
+			}
+		%>
 	</ul>
 	</dd>
+	<%
+			if(admin.getRole()==1){
+	%>
 	<dd>
 	<div class="title">
 		<span><img src="images/leftico03.png"/></span>用户管理
@@ -59,15 +70,25 @@ $(function(){
 		<li><cite></cite><a href="${ctx }/UserAdd"  target="rightFrame">添加用户</a><i></i></li>
 	</ul>
 	</dd>
+	<%
+			}
+	%>
 	<dd>
 	<div class="title">
 		<span><img src="images/leftico04.png"/></span>借书管理
 	</div>
 	<ul class="menuson">
+		<%
+			if(admin.getRole()==1){
+		%>
 		<li><cite></cite><a href="${ctx}/BookUserList" target="rightFrame">图书列表</a><i></i></li>
+		<%
+			}
+		%>
 		<li><cite></cite><a href="${ctx}/UserBookList" target="rightFrame">用户列表</a><i></i></li>
 	</ul>
 	</dd>
+	
 </dl>
 </body>
 </html>

@@ -1,3 +1,4 @@
+<%@page import="com.lms.entity.Admin"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -31,7 +32,12 @@ $(function(){
 		<li><a href="${ctx}/Logout" target="_parent">退出</a></li>
 	</ul>
 	<div class="user">
-		<span>${sessionScope.username}</span>
+		<%
+			Admin admin=(Admin)session.getAttribute("admin");
+		%>
+		<span>
+			<%=admin.getEmail()%>
+		</span>
 		<i>消息</i>
 		<b>5</b>
 	</div>

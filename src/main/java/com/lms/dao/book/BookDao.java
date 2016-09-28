@@ -25,12 +25,14 @@ public class BookDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Book> findAll() throws SQLException {
+	public List<Book> findAll(boolean status) throws SQLException {
 		List<Book> books = Lists.newArrayList();
 
 		connection = (Connection) DbUtil.getConn();
 		statement = (Statement) DbUtil.getStmt(connection);
 		String sql = "select * from book";
+		if(!status)
+			sql=sql+" where status=1";
 		resultSet = statement.executeQuery(sql);
 
 		Book book;
@@ -225,6 +227,23 @@ public class BookDao {
 		preparedStatement.setInt(6, book.getInventoryNumber());
 		preparedStatement.setString(7, book.getRemark());
 		preparedStatement.setInt(8, book.getId());
+		Integer update = preparedStatement.executeUpdate();
+		DbUtil.closePstmt(preparedStatement);
+		DbUtil.closeConn(connection);
+		return update;
+	}
+	
+	/**
+	 * 借出图书
+	 * @param id
+	 * @return
+	 * @throws SQLException 
+	 */
+	public Integer lend(Integer id) throws SQLException{
+		connection = (Connection) DbUtil.getConn();
+		String sql = "update book set lend_number=lend_number+1 where id=?";
+		preparedStatement = (PreparedStatement) DbUtil.getPstmt(connection, sql);
+		preparedStatement.setInt(1, id);
 		Integer update = preparedStatement.executeUpdate();
 		DbUtil.closePstmt(preparedStatement);
 		DbUtil.closeConn(connection);

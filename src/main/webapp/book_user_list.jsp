@@ -101,12 +101,10 @@ $(document).ready(function(e) {
         <th style="width:6%">用户</th>
         <th style="width:12%">邮箱</th>
         <th style="width:10%">联系方式</th>
-        <th style="width:13%">身份证</th>
-        <th style="width:15%">地址</th>
-        <th style="width:5%">性别</th>
-        <th style="width:8%">已借图书</th>
         <th style="width:7%">权限</th>
-        <th style="width:5%">状态</th>
+        <th>借阅时间</th>
+        <th>归还时间</th>
+        <th style="width:5%">超时</th>
         <th style="width:14%">操作</th>
         </tr>
         </thead>
@@ -127,20 +125,7 @@ $(document).ready(function(e) {
         <td style="width:6%">${user.name}</td>
         <td style="width:12%">${user.email}</td>
         <td style="width:10%">${user.tell}</td>
-        <td style="width:13%">${user.idcard}</td>
-        <td style="width:15%">${user.address}</td>
-        <td style="width:5%">
-        	<c:if test="${user.gender==1}">
-        		男
-        	</c:if>
-        	<c:if test="${user.gender==0}">
-        		女
-        	</c:if>
-        </td>
-        <td style="width:8%">
-        	<a href="" class="tablelink" style="color:green">${user.lendNumber }</a>
-        	
-        </td>
+      
         <td style="width:7%">
         	<c:if test="${user.role==1}">
         		VIP用户
@@ -149,37 +134,17 @@ $(document).ready(function(e) {
         		普通用户
         	</c:if>
         </td>
+        <td>
+			${user.lendTime}
+        </td>
+        <td>
+        	${user.returnTime}
+        </td>
         <td style="width:5%">
-        	<c:if test="${user.status==1}">
-        		启用
-        	</c:if>
-        	<c:if test="${user.status==0}">
-        		禁用
-        	</c:if>
+        	否
         </td>
         <td style="width:14%">
-        	<c:if test="${user.status==1 }">
-        		<a href="${ctx}/UserUpdate?id=${user.id}" class="tablelink">查看</a>
-        	</c:if>
-        	<c:if test="${user.status==0 }">
-        		<a href="${ctx}/UserUpdate?id=${user.id}" class="tablelink" style="color:green">修改</a>
-        	</c:if>
-        
-        	<c:if test="${user.role==1 }">
-        		<a onclick="demotion('${user.id}')" class="tablelink" style="color:red">降级</a>
-        	</c:if>
-        	<c:if test="${user.role==0 }">
-        		<a onclick="upgrade('${user.id}')"  class="tablelink" style="color:green">升级</a>
-        	</c:if>
-        
-        	<c:if test="${user.status==1}">
-        		<a onclick="disabled('${user.id}')" class="tablelink" style="color:red">禁用</a>
-        	</c:if>
-        	<c:if test="${user.status==0}">
-        		<a onclick="start('${user.id}')"  class="tablelink" style="color:green">启用</a>
-        	</c:if>
-        	
-        	<a onclick="del('${user.id}')" class="tablelink" style="color:red"> 删除</a></td>
+        	罚款
         </tr> 
         </c:forEach>
        <%

@@ -116,4 +116,28 @@ public class BorrowService {
 		}
 		return list;
 	}
+	
+
+	/**
+	 * 指定用户图书列表
+	 * 
+	 * @return
+	 */
+	public List<Borrow<List<Book>>> userBookList(Integer adminId) {
+		List<Borrow<List<Book>>> list = Lists.newArrayList();
+		BookDao bookDao = new BookDao();
+		UserDao userDao = new UserDao();
+		try {
+			Integer id=userDao.findUserId(adminId);
+			Map<String, Object> map = userDao.findAllId(id);
+			List<Book> value = bookDao.findAll((Integer) map.get("id"));
+			if (value != null && value.size() > 0) {
+				list.add(new Borrow<List<Book>>(String.valueOf(map.get("name")), value));
+			}
+		} catch (SQLException e) {
+			LOGGER.info("BorrowService userBookList()," + e.getMessage());
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

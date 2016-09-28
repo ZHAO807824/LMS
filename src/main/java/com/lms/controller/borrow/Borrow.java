@@ -1,6 +1,7 @@
-package com.lms.controller.book;
+package com.lms.controller.borrow;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,19 +9,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSON;
 import com.lms.entity.Admin;
-import com.lms.service.book.BookService;
+import com.lms.service.user.UserService;
 
 /**
- * Servlet implementation class BookList
+ * Servlet implementation class Borrow
  */
-public class BookList extends HttpServlet {
+public class Borrow extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BookList() {
+    public Borrow() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,17 +31,18 @@ public class BookList extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		BookService service=new BookService();
-		HttpSession session=request.getSession();
-		Admin admin=(Admin)session.getAttribute("admin");
-		request.setAttribute("books", service.list(admin.getRole()));
-		request.getRequestDispatcher("book_list.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String bookId=request.getParameter("id");
+		HttpSession session=request.getSession();
+		Admin admin=(Admin) session.getAttribute("admin");
+		UserService service=new UserService();
+		PrintWriter out = response.getWriter();
+		out.write(JSON.toJSONString(service.borrow(Integer.valueOf(bookId), admin.getId())));
 	}
 
 }

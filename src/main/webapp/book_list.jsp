@@ -1,3 +1,4 @@
+<%@page import="com.lms.entity.Admin"%>
 <%@page import="com.alibaba.fastjson.JSON"%>
 <%@page import="com.lms.entity.book.Book"%>
 <%@page import="java.util.List"%>
@@ -48,6 +49,11 @@ $(document).ready(function(e) {
 	/* 删除图书 */
 	function del(id){
 		$.post('${ctx}/BookDelete', { "id":id }, function (data) { window.location.reload(true) });
+	}
+	
+	/* 借阅图书 */
+	function borrow(id){
+		$.post('${ctx}/Borrow', { "id":id }, function (data) { window.location.href="${ctx}/UserBookList";});
 	}
 </script>
 <style>
@@ -132,6 +138,7 @@ $(document).ready(function(e) {
         </thead>
         <tbody>
         <%
+        	Admin admin=(Admin)session.getAttribute("admin");
         	String data=(String)request.getAttribute("books");
         	List<Book> lists=JSON.parseArray(data, Book.class);
         %>
@@ -155,6 +162,9 @@ $(document).ready(function(e) {
         	</c:if>
         </td>
         <td style="width:15%">
+        	<%
+        		if(admin.getRole()==1){
+        	%>
         	<c:if test="${book.lendNumber==0 }">
         		<a href="${ctx}/BookUpdate?id=${book.id}" class="tablelink">修改</a>
         	</c:if>
@@ -169,6 +179,13 @@ $(document).ready(function(e) {
         		<a onclick="start('${book.id}')"  class="tablelink" style="color:green">启用</a>
         	</c:if>
         	<a onclick="del('${book.id}')" class="tablelink" style="color:red"> 删除</a></td>
+        	<%
+        		}else{
+        	%>
+        		<a onclick="borrow('${book.id}')" class="tablelink">借阅</a></td>
+        	<%
+        		}
+        	%>
         </tr> 
         </c:forEach>
        

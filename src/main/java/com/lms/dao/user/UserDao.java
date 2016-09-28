@@ -200,6 +200,27 @@ public class UserDao {
 	}
 
 	/**
+	 * 根据adminId获取userId
+	 * 
+	 * @param adminId
+	 * @return
+	 * @throws SQLException
+	 */
+	public Integer findUserId(Integer adminId) throws SQLException {
+		connection = (Connection) DbUtil.getConn();
+		statement = (Statement) DbUtil.getStmt(connection);
+		String sql = "select user_id from admin_user  where admin_id=" + adminId;
+		resultSet = statement.executeQuery(sql);
+
+		Integer id = null;
+		while (resultSet.next()) {
+			id = resultSet.getInt(1);
+		}
+		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
+		return id;
+	}
+
+	/**
 	 * 根据所借图书ID遍历用户列表
 	 * 
 	 * @return
@@ -298,5 +319,24 @@ public class UserDao {
 		DbUtil.closePstmt(preparedStatement);
 		DbUtil.closeConn(connection);
 		return update;
+	}
+	
+	/**
+	 * 插入数据book_user
+	 * 
+	 * @param user
+	 * @return
+	 * @throws SQLException
+	 */
+	public Integer borrow(Integer userId, Integer bookId) throws SQLException {
+		connection = (Connection) DbUtil.getConn();
+		String sql = "insert into book_user(book_id,user_id) values(?,?)";
+		preparedStatement = (PreparedStatement) DbUtil.getPstmt(connection, sql);
+		preparedStatement.setInt(1, bookId);
+		preparedStatement.setInt(2, userId);
+		Integer result = null;
+		result = preparedStatement.executeUpdate();
+		DbUtil.closeConnPstatRs(connection, preparedStatement, resultSet);
+		return result;
 	}
 }

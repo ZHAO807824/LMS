@@ -21,14 +21,14 @@ public class BookService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginService.class);
 
 	/**
-	 * 图书列表
-	 * 
+	 * 图书列表:管理员权限查看所有图书,普通用户查看启用图书
+	 * @param role
 	 * @return
 	 */
-	public String list() {
+	public String list(Integer role) {
 		BookDao dao = new BookDao();
 		try {
-			List<Book> books = dao.findAll();
+			List<Book> books = dao.findAll(role==1?true:false);
 			if (books != null && books.size() > 0) {
 				return JSON.toJSONString(books);
 			}
