@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.Lists;
 import com.lms.entity.book.Book;
 import com.lms.util.DbUtil;
@@ -25,14 +27,22 @@ public class BookDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Book> findAll(boolean status) throws SQLException {
+	public List<Book> findAll(boolean status, String bookName) throws SQLException {
 		List<Book> books = Lists.newArrayList();
 
 		connection = (Connection) DbUtil.getConn();
 		statement = (Statement) DbUtil.getStmt(connection);
 		String sql = "select * from book";
-		if(!status)
-			sql=sql+" where status=1";
+		if (!status) {
+			sql = sql + " where status=1";
+			if (StringUtils.isNotEmpty(bookName))
+				sql = sql + " and name like '" + bookName + "%'";
+		}
+
+		else {
+			if (StringUtils.isNotEmpty(bookName))
+				sql = sql + " where name like '" + bookName + "%'";
+		}
 		resultSet = statement.executeQuery(sql);
 
 		Book book;
@@ -45,7 +55,6 @@ public class BookDao {
 		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
 		return books;
 	}
-	
 
 	/**
 	 * 根据借阅者ID遍历用户列表
@@ -58,21 +67,21 @@ public class BookDao {
 
 		connection = (Connection) DbUtil.getConn();
 		statement = (Statement) DbUtil.getStmt(connection);
-		String sql = "select b.*,bu.lend_time as lend_time,bu.return_time as return_time from book_user as bu LEFT JOIN book as b on bu.book_id=b.id LEFT JOIN  `user` as u on bu.user_id=u.id where u.id="+id;
+		String sql = "select b.*,bu.lend_time as lend_time,bu.return_time as return_time from book_user as bu LEFT JOIN book as b on bu.book_id=b.id LEFT JOIN  `user` as u on bu.user_id=u.id where u.id="
+				+ id;
 		resultSet = statement.executeQuery(sql);
 
 		Book book;
 		while (resultSet.next()) {
 			book = new Book(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
 					resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7), resultSet.getInt(8),
-					resultSet.getString(9),resultSet.getDate(10),resultSet.getDate(11));
+					resultSet.getString(9), resultSet.getDate(10), resultSet.getDate(11));
 			books.add(book);
 		}
 		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
 		return books;
 	}
-	
-	
+
 	/**
 	 * 遍历图书ID列表
 	 * 
@@ -90,9 +99,9 @@ public class BookDao {
 		Integer id;
 		String name;
 		while (resultSet.next()) {
-			Map<String, Object> map=new HashMap<String, Object>();
-			id=resultSet.getInt(1);
-			name=resultSet.getString(2);
+			Map<String, Object> map = new HashMap<String, Object>();
+			id = resultSet.getInt(1);
+			name = resultSet.getString(2);
 			map.put("id", id);
 			map.put("name", name);
 			lists.add(map);
@@ -100,9 +109,10 @@ public class BookDao {
 		DbUtil.closeConnStatRs(connection, preparedStatement, resultSet);
 		return lists;
 	}
-	
+
 	/**
 	 * 根据图书id获取图书部分信息
+	 * 
 	 * @param bookId
 	 * @return
 	 * @throws SQLException
@@ -110,15 +120,15 @@ public class BookDao {
 	public Map<String, Object> findAllId(Integer bookId) throws SQLException {
 		connection = (Connection) DbUtil.getConn();
 		statement = (Statement) DbUtil.getStmt(connection);
-		String sql = "select id,name from book where status=1 and id="+bookId;
+		String sql = "select id,name from book where status=1 and id=" + bookId;
 		resultSet = statement.executeQuery(sql);
 
 		Integer id;
 		String name;
-		Map<String, Object> map=new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		while (resultSet.next()) {
-			id=resultSet.getInt(1);
-			name=resultSet.getString(2);
+			id = resultSet.getInt(1);
+			name = resultSet.getString(2);
 			map.put("id", id);
 			map.put("name", name);
 		}
@@ -232,14 +242,15 @@ public class BookDao {
 		DbUtil.closeConn(connection);
 		return update;
 	}
-	
+
 	/**
 	 * 借出图书
+	 * 
 	 * @param id
 	 * @return
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
-	public Integer lend(Integer id) throws SQLException{
+	public Integer lend(Integer id) throws SQLException {
 		connection = (Connection) DbUtil.getConn();
 		String sql = "update book set lend_number=lend_number+1 where id=?";
 		preparedStatement = (PreparedStatement) DbUtil.getPstmt(connection, sql);

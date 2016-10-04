@@ -53,7 +53,15 @@ $(document).ready(function(e) {
 	
 	/* 借阅图书 */
 	function borrow(id){
-		$.post('${ctx}/Borrow', { "id":id }, function (data) { window.location.href="${ctx}/UserBookList";});
+		$.post('${ctx}/Borrow', { "id":id }, function (data) {
+			if(data=='true'){
+				window.location.href="${ctx}/UserBookList";
+			}
+			else{
+				alert("借阅失败,请检查您账号状态和借阅数目");
+			}
+		}
+		);
 	}
 </script>
 <style>
@@ -77,48 +85,11 @@ $(document).ready(function(e) {
     
     <div class="formbody">
     
-    
-
-    
-
-    
-  	
-    
-
-    
-    
     <ul class="seachform">
-    
-    <li><label>综合查询</label><input name="" type="text" class="scinput" /></li>
-    <li><label>指派</label>  
-    <div class="vocation">
-    <select class="select3">
-    <option>全部</option>
-    <option>其他</option>
-    </select>
-    </div>
-    </li>
-    
-    <li><label>重点客户</label>  
-    <div class="vocation">
-    <select class="select3">
-    <option>全部</option>
-    <option>其他</option>
-    </select>
-    </div>
-    </li>
-    
-    <li><label>客户状态</label>  
-    <div class="vocation">
-    <select class="select3">
-    <option>全部</option>
-    <option>其他</option>
-    </select>
-    </div>
-    </li>
-    
-    <li><label>&nbsp;</label><input name="" type="button" class="scbtn" value="查询"/></li>
-    
+    <form action="BookList" method="post">
+    <li><label>综合查询</label><input id="bookName" name="bookName" type="text" class="scinput" /></li>
+    <li><label>&nbsp;</label><input name="" type="submit" class="scbtn" value="查询"/></li>
+    </form>
     </ul>
     
     

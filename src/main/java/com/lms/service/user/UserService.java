@@ -22,16 +22,16 @@ import com.lms.util.PropertiesUtil;
  */
 public class UserService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginService.class);
-	
+
 	/**
 	 * 用户列表
 	 * 
 	 * @return
 	 */
 	public String list() {
-		UserDao dao=new UserDao();
+		UserDao dao = new UserDao();
 		try {
-			List<User> users=dao.findAll();
+			List<User> users = dao.findAll();
 			if (users != null && users.size() > 0) {
 				return JSON.toJSONString(users);
 			}
@@ -41,7 +41,7 @@ public class UserService {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 删除用户信息
 	 * 
@@ -50,7 +50,7 @@ public class UserService {
 	 */
 	public boolean delete(String idStr) {
 		Integer id = Integer.valueOf(idStr);
-		UserDao dao=new UserDao();
+		UserDao dao = new UserDao();
 		try {
 			return dao.delete(id) != 0 ? true : false;
 		} catch (SQLException e) {
@@ -59,15 +59,16 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 禁用用户
+	 * 
 	 * @param idStr
 	 * @return
 	 */
-	public boolean disabled(String idStr){
+	public boolean disabled(String idStr) {
 		Integer id = Integer.valueOf(idStr);
-		UserDao dao=new UserDao();
+		UserDao dao = new UserDao();
 		try {
 			return dao.status(id, 0) != 0 ? true : false;
 		} catch (SQLException e) {
@@ -76,7 +77,7 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 激活用户
 	 * 
@@ -85,7 +86,7 @@ public class UserService {
 	 */
 	public boolean start(String idStr) {
 		Integer id = Integer.valueOf(idStr);
-		UserDao dao=new UserDao();
+		UserDao dao = new UserDao();
 		try {
 			return dao.status(id, 1) != 0 ? true : false;
 		} catch (SQLException e) {
@@ -94,20 +95,22 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 注册
+	 * 
 	 * @param user
 	 * @return
 	 */
-	public boolean register(User user){
-		AdminDao adminDao=new AdminDao();
-		UserDao userDao=new UserDao();
+	public boolean register(User user) {
+		AdminDao adminDao = new AdminDao();
+		UserDao userDao = new UserDao();
 		try {
-			Integer adminId=adminDao.insert(new Admin(user.getEmail(), MD5Util.getMD5(PropertiesUtil.getValue("user.password"))));
-			Integer userId=userDao.insert(user,true);
-			if (adminId!=null&&userId!=null) {
-				return userDao.insert(userId, adminId)!=null?true:false;
+			Integer adminId = adminDao
+					.insert(new Admin(user.getEmail(), MD5Util.getMD5(PropertiesUtil.getValue("user.password"))));
+			Integer userId = userDao.insert(user, true);
+			if (adminId != null && userId != null) {
+				return userDao.insert(userId, adminId) != null ? true : false;
 			}
 		} catch (SQLException e) {
 			LOGGER.info("Register register(User);" + e.getMessage());
@@ -115,15 +118,16 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 升级用户:普通用户->VIP用户
+	 * 
 	 * @param idStr
 	 * @return
 	 */
-	public boolean upgrade(String idStr){
+	public boolean upgrade(String idStr) {
 		Integer id = Integer.valueOf(idStr);
-		UserDao dao=new UserDao();
+		UserDao dao = new UserDao();
 		try {
 			return dao.role(id, 1) != 0 ? true : false;
 		} catch (SQLException e) {
@@ -132,15 +136,16 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 降级用户:VIP用户->普通用户
+	 * 
 	 * @param idStr
 	 * @return
 	 */
-	public boolean demotion(String idStr){
+	public boolean demotion(String idStr) {
 		Integer id = Integer.valueOf(idStr);
-		UserDao dao=new UserDao();
+		UserDao dao = new UserDao();
 		try {
 			return dao.role(id, 0) != 0 ? true : false;
 		} catch (SQLException e) {
@@ -149,15 +154,16 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 查询单个用户信息
+	 * 
 	 * @param idStr
 	 * @return
 	 */
-	public User query(String idStr){
+	public User query(String idStr) {
 		Integer id = Integer.valueOf(idStr);
-		UserDao dao=new UserDao();
+		UserDao dao = new UserDao();
 		try {
 			return dao.findOne(id);
 		} catch (SQLException e) {
@@ -166,14 +172,15 @@ public class UserService {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 修改用户信息
+	 * 
 	 * @param user
 	 * @return
 	 */
-	public boolean update(User user){
-		UserDao dao=new UserDao();
+	public boolean update(User user) {
+		UserDao dao = new UserDao();
 		try {
 			return dao.update(user) != 0 ? true : false;
 		} catch (SQLException e) {
@@ -182,24 +189,35 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 借阅图书
+	 * 
 	 * @param bookId
 	 * @param adminId
 	 * @return
 	 */
-	public boolean borrow(Integer bookId,Integer adminId){
-		UserDao userDao=new UserDao();
-		BookDao bookDao=new BookDao();
+	public boolean borrow(Integer bookId, Integer adminId) {
+		UserDao userDao = new UserDao();
+		BookDao bookDao = new BookDao();
 		try {
-			if(bookDao.lend(bookId)>0){
-				return userDao.borrow(userDao.findUserId(adminId), bookId)>0?true:false;
+			/*
+			 * 判断当前用户能借几本书,是否已借满
+			 */
+			Integer id = userDao.findUserId(adminId);
+			User user = userDao.findOne(id);
+			if (user != null) {
+				Integer lendNumber = Integer.valueOf(PropertiesUtil.getValue(user.getRole() == 0 ? "average" : "VIP"));
+				Integer lend = userDao.count(id);
+				if (lendNumber > lend)
+					if (bookDao.lend(bookId) > 0) {
+						return userDao.borrow(userDao.findUserId(adminId), bookId) > 0 ? true : false;
+					}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return true;
+		return false;
 	}
 }

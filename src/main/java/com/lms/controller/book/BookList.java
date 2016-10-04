@@ -32,7 +32,7 @@ public class BookList extends HttpServlet {
 		BookService service=new BookService();
 		HttpSession session=request.getSession();
 		Admin admin=(Admin)session.getAttribute("admin");
-		request.setAttribute("books", service.list(admin.getRole()));
+		request.setAttribute("books", service.list(admin.getRole(),null));
 		request.getRequestDispatcher("book_list.jsp").forward(request, response);
 	}
 
@@ -40,6 +40,13 @@ public class BookList extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		String bookName=request.getParameter("bookName");
+		BookService service=new BookService();
+		HttpSession session=request.getSession();
+		Admin admin=(Admin)session.getAttribute("admin");
+		request.setAttribute("books", service.list(admin.getRole(),bookName));
+		request.getRequestDispatcher("book_list.jsp").forward(request, response);
 	}
 
 }

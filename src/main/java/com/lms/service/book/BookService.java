@@ -25,10 +25,10 @@ public class BookService {
 	 * @param role
 	 * @return
 	 */
-	public String list(Integer role) {
+	public String list(Integer role,String name) {
 		BookDao dao = new BookDao();
 		try {
-			List<Book> books = dao.findAll(role==1?true:false);
+			List<Book> books = dao.findAll(role==1?true:false,name);
 			if (books != null && books.size() > 0) {
 				return JSON.toJSONString(books);
 			}

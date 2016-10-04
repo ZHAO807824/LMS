@@ -339,4 +339,23 @@ public class UserDao {
 		DbUtil.closeConnPstatRs(connection, preparedStatement, resultSet);
 		return result;
 	}
+	
+	/**
+	 * 获取指定用户借阅图书数量
+	 * @param userId
+	 * @return
+	 * @throws SQLException
+	 */
+	public Integer count(Integer userId) throws SQLException{
+		connection = (Connection) DbUtil.getConn();
+		String sql = "select count(id) from book_user where user_id=?";
+		preparedStatement = (PreparedStatement) DbUtil.getPstmt(connection, sql);
+		preparedStatement.setInt(1, userId);
+		Integer result = 0;
+		resultSet=preparedStatement.executeQuery();
+		if(resultSet.next())
+			result=resultSet.getInt(1);
+		DbUtil.closeConnPstatRs(connection, preparedStatement, resultSet);
+		return result;
+	}
 }
